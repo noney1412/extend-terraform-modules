@@ -8,7 +8,7 @@ resource "random_id" "storage_account_suffix" {
 }
 
 resource "azurerm_storage_account" "func" {
-  name                     = "sta${var.project_code}${var.service_code}${var.environment_short}${random_id.storage_account_suffix.id}"
+  name                     = "sta${var.project_code}${var.service_code}${var.environment_short}${random_id.storage_account_suffix.dec}"
   resource_group_name      = azurerm_resource_group.func.name
   location                 = azurerm_resource_group.func.location
   account_tier             = var.account_tier
@@ -16,7 +16,7 @@ resource "azurerm_storage_account" "func" {
 }
 
 resource "azurerm_service_plan" "func" {
-  name                = "asp-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.id}"
+  name                = "asp-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.dec}"
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
   os_type             = var.os_type
@@ -24,7 +24,7 @@ resource "azurerm_service_plan" "func" {
 }
 
 resource "azurerm_windows_function_app" "func" {
-  name                = "func-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.id}"
+  name                = "func-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.dec}"
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
 
