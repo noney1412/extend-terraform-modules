@@ -28,9 +28,29 @@ resource "azurerm_windows_function_app" "func" {
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
 
-  storage_account_name       = azurerm_storage_account.func.name
-  storage_account_access_key = azurerm_storage_account.func.primary_access_key
-  service_plan_id            = azurerm_service_plan.func.id
+  storage_account_name        = azurerm_storage_account.func.name
+  storage_account_access_key  = azurerm_storage_account.func.primary_access_key
+  service_plan_id             = azurerm_service_plan.func.id
+  functions_extension_version = "~4"
+  client_certificate_mode     = "Required"
+  https_only                  = true
 
-  site_config {}
+  site_config {
+    application_stack {
+      node_version = "~18"
+    }
+
+    cors {
+      allowed_origins = [
+        "https://portal.azure.com",
+      ]
+      support_credentials = false
+    }
+
+  }
+
+  app_settings = {
+    SCM_DO_BUILD_DURING_DEPLOYMENT = true
+  }
 }
+
