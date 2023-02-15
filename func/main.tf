@@ -3,12 +3,12 @@ resource "azurerm_resource_group" "func" {
   location = var.location
 }
 
-resource "random_id" "storage_account_suffix" {
+resource "random_id" "suffix" {
   byte_length = 2
 }
 
 resource "azurerm_storage_account" "func" {
-  name                     = "sta${var.project_code}${var.service_code}${var.environment_short}${random_id.storage_account_suffix.dec}"
+  name                     = "sta${var.project_code}${var.service_code}${var.environment_short}${random_id.suffix.dec}"
   resource_group_name      = azurerm_resource_group.func.name
   location                 = azurerm_resource_group.func.location
   account_tier             = var.account_tier
@@ -16,15 +16,22 @@ resource "azurerm_storage_account" "func" {
 }
 
 resource "azurerm_service_plan" "func" {
-  name                = "asp-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.dec}"
+  name                = "asp-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.suffix.dec}"
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
   os_type             = var.os_type
   sku_name            = var.sku_name
 }
 
+resource "azurerm_application_insights" "func" {
+  name                = "ain-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.suffix.dec}"
+  resource_group_name = azurerm_resource_group.func.name
+  location            = azurerm_resource_group.func.location
+  application_type    = "web"
+}
+
 resource "azurerm_windows_function_app" "func" {
-  name                = "func-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.storage_account_suffix.dec}"
+  name                = "func-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.suffix.dec}"
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
 
@@ -39,6 +46,9 @@ resource "azurerm_windows_function_app" "func" {
     application_stack {
       node_version = "~18"
     }
+
+    application_insights_key               = azurerm_application_insights.func.instrumentation_key
+    application_insights_connection_string = azurerm_application_insights.func.connection_string
 
     cors {
       allowed_origins = [
