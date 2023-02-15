@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "func" {
 }
 
 resource "random_id" "storage_account_suffix" {
-  byte_length = 4
+  byte_length = 2
 }
 
 resource "azurerm_storage_account" "func" {
