@@ -18,4 +18,5 @@ module "func" {
   service_code      = var.service_code
   environment_short = var.environment_short
   location          = var.location
+  tags              = var.tags
 }
