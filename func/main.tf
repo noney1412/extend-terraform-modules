@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "func" {
   name     = "${var.project_code}-${var.service_code}-${var.environment_short}-rg"
   location = var.location
+  tags = var.tags
 }
 
 resource "random_id" "suffix" {

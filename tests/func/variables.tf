@@ -41,3 +41,9 @@ variable "account_replication_type" {
   description = "The account replication type for func01 eg. LRS, GRS, RAGRS, ZRS"
   default     = "LRS"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "The tags for func01 eg. { env = `dev`, project = `name`, service = `name` }"
+  default     = {}
+}
