@@ -1,13 +1,11 @@
-resource "azurerm_resource_group" "func" {
-  name     = "${var.project_code}-${var.service_code}-${var.environment_short}-rg"
-  location = var.location
-  tags = var.tags
-}
-
 resource "random_id" "suffix" {
   byte_length = 2
 }
-
+resource "azurerm_resource_group" "func" {
+  name     = "${var.project_code}-${var.service_code}-${var.environment_short}-rg-${random_id.suffix.dec}"
+  location = var.location
+  tags     = var.tags
+}
 resource "azurerm_storage_account" "func" {
   name                     = "sta${var.project_code}${var.service_code}${var.environment_short}${random_id.suffix.dec}"
   resource_group_name      = azurerm_resource_group.func.name
