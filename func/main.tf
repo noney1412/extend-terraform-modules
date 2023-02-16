@@ -43,7 +43,7 @@ resource "azurerm_linux_function_app" "func" {
 
   site_config {
     application_stack {
-      node_version = "~18"
+      node_version = "18"
     }
 
     application_insights_key               = azurerm_application_insights.func.instrumentation_key
