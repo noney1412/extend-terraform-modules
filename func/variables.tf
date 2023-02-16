@@ -21,7 +21,7 @@ variable "location" {
 variable "os_type" {
   type        = string
   description = "The operating system type for func01 eg. Linux, Windows"
-  default     = "Windows"
+  default     = "Linux"
 }
 
 variable "sku_name" {
