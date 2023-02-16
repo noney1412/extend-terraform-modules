@@ -29,7 +29,7 @@ resource "azurerm_application_insights" "func" {
   application_type    = "web"
 }
 
-resource "azurerm_windows_function_app" "func" {
+resource "azurerm_linux_function_app" "func" {
   name                = "func-${var.project_code}-${var.service_code}-${var.environment_short}-${random_id.suffix.dec}"
   resource_group_name = azurerm_resource_group.func.name
   location            = azurerm_resource_group.func.location
